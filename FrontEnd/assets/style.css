@@ -127,8 +127,16 @@ li:hover {
 }
 .filtres {
 	display: flex;
-	width: 70%;
-	justify-content: space-around;
+	justify-content: center
+}
+.filtres button {
+	border: 1px solid #1D6154;
+	padding: 10px;
+	border-radius: 25px;
+	font-family: 'Syne';
+	color: #1D6154;
+	background-color: white;
+	margin: 0 10px 0 10px;
 }
 .gallery {
 	width: 100%;
