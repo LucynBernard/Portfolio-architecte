@@ -1,4 +1,5 @@
-async function getWorks() {
+async function getWorks(filter) {
+    document.querySelector(".gallery").innerHTML = "";
     const url = "http://localhost:5678/api/works";
     try {
         const response = await fetch(url);
@@ -7,33 +8,21 @@ async function getWorks() {
         }
 
         const json = await response.json();
-        console.log(json);
-        for (let i = 0; i < json.length; i++) {
-            setFigure(json[i]);
+        if (filter) {
+            const filtered = json.filter((data) => data.categoryId === filter)
+            for (let i = 0; i < filtered.length; i++) {
+                setFigure(filtered[i]);
+            }
+        } else {
+            for (let i = 0; i < json.length; i++) {
+                setFigure(json[i]);
+            }
+
         }
     } catch (error) {
         console.error(error.message);
     }
 }
-
-async function getCategory() {
-    const url = "http://localhost:5678/api/categories";
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-
-        const json = await response.json();
-        console.log(json);
-        for (let i = 0; i < json.length; i++) {
-            setFilter(json[i]);
-        }
-    } catch (error) {
-        console.error(error.message);
-    }
-}
-
 getWorks();
 
 function setFigure(data) {
@@ -44,26 +33,62 @@ function setFigure(data) {
     document.querySelector(".gallery").append(figure);
 }
 
+async function getCategory() {
+    const url = "http://localhost:5678/api/categories";
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const categories = await response.json();
+
+        const container = document.querySelector(".filters");
+
+        //Créer le bouton "tous"
+        const allBtn = document.createElement("button");
+        allBtn.textContent = "Tous";
+        allBtn.classList.add("btn");
+        allBtn.addEventListener("click", () => getWorks());
+        container.appendChild(allBtn);
+
+        // Créer un bouton pour chaque catégorie
+        categories.forEach(category => {
+            const btn = document.createElement("button");
+            btn.textContent = category.name;
+            btn.classList.add("btn");
+            btn.addEventListener("click", () => getWorks(category.id));
+            container.appendChild(btn);
+        })
+
+        // const json = await response.json();
+        // console.log(json);
+        // for (let i = 0; i < json.length; i++) {
+        //     setFilter(json[i]);
+        } catch (error) {
+        console.error(error.message);
+    } 
+    }
 getCategory();
 
+function setFilter(data) { }
 
-
-function setFilter(data) {
-    const div = document.createElement("div")
-    div.innerHTML = `${data.name}`
-
-    document.querySelector(".gallery").append(div);
-}
-
-
-
-// // gestion des filtres
 // const boutonTous = document.querySelector(".btn-all")
-
 // const boutonObjets = document.querySelector(".btn-objets")
+// const boutonApp = document.querySelector(".btn-app")
+// const boutonHotels = document.querySelector(".btn-hotels")
 
-// boutonObjets.addEventListener("click", function () {
-//     const objetsOnly = figure.filter(function (figure) {
-//         return figure.categoryId(1)
-//     })
+// boutonObjets.addEventListener("click", () => {
+//     getWorks(1)
+// })
+
+// boutonTous.addEventListener("click", () => {
+//     getWorks()
+
+// })
+// boutonApp.addEventListener("click", () => {
+//     getWorks(2)
+// })
+// boutonHotels.addEventListener("click", () => {
+//     getWorks(3)
 // })
