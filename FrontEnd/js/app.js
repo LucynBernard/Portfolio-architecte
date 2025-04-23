@@ -48,7 +48,7 @@ async function getCategory() {
         //Créer le bouton "tous"
         const allBtn = document.createElement("button");
         allBtn.textContent = "Tous";
-        allBtn.classList.add("btn");
+        allBtn.classList.add("btn", "active");
         allBtn.addEventListener("click", () => getWorks());
         container.appendChild(allBtn);
 
@@ -57,7 +57,15 @@ async function getCategory() {
             const btn = document.createElement("button");
             btn.textContent = category.name;
             btn.classList.add("btn");
-            btn.addEventListener("click", () => getWorks(category.id));
+            btn.addEventListener("click", () => {
+                getWorks(category.id)
+                const buttons = document.querySelectorAll(".btn");
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("active");
+                }
+                btn.classList.add("active")
+    
+            });
             container.appendChild(btn);
         })
 
