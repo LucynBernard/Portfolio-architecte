@@ -33,9 +33,6 @@ async function getSubmit(event) {
         localStorage.setItem("token", result.token)
         window.location.href = "index.html"
 
-
-        console.log('E-mail:', user.email);
-        console.log('Mot de passe', user.password);
     } catch (error) {
         console.error("Erreur lors de la requête :", error);
     }

@@ -81,6 +81,19 @@ getCategory();
 
 function setFilter(data) { }
 
+//apparition de la barre noire
+function adminMode() {
+    if (localStorage.token) {
+        console.log("ok")
+        const editBar = document.createElement('div')
+        editBar.className ='edit-bar'
+		editBar.innerHTML = '<p><i class="fa-solid fa-pen-to-square"></i>Mode édition</p>';
+        document.body.prepend(editBar);
+    }
+}
+
+adminMode()
+
 // const boutonTous = document.querySelector(".btn-all")
 // const boutonObjets = document.querySelector(".btn-objets")
 // const boutonApp = document.querySelector(".btn-app")

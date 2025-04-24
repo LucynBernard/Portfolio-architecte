@@ -53,7 +53,24 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 	background-color: #FFFEF8;
+	margin-top: 70px;
 }
+
+/* barre édition */ 
+.edit-bar {
+	background-color: black;
+	color: white;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+	margin: 0;
+	position: absolute;
+	width: 100vw;
+	left: 0;
+	top: 0;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
