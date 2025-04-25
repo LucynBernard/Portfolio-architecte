@@ -83,16 +83,36 @@ function setFilter(data) { }
 
 //apparition de la barre noire
 function adminMode() {
-    if (localStorage.token) {
+    if (sessionStorage.token) {
         console.log("ok")
         const editBar = document.createElement('div')
         editBar.className ='edit-bar'
 		editBar.innerHTML = '<p><i class="fa-solid fa-pen-to-square"></i>Mode édition</p>';
         document.body.prepend(editBar);
+
+        const editProject = document.createElement('span');
+        editProject.className = 'edit-project';
+        editProject.innerHTML = '<a href="#modale" class="js-modal"><i class="fa-solid fa-pen-to-square"></i>modifier</a>';
+        document.querySelector("#title-project").appendChild(editProject);
     }
 }
 
 adminMode()
+
+//modale 
+
+const openModal = function (e) {
+    e.preventDefault();
+    const target = document.querySelector(e.target.getAttribute("href"))
+    target.style.display = null
+    target.removeAttribute("aria-hidden")
+    target.setAttribute("aria-modal", 'true')
+}
+
+document.querySelectorAll(".js-modal").forEach(a => {
+    a.addEventListener('click', openModal);
+    
+})
 
 // const boutonTous = document.querySelector(".btn-all")
 // const boutonObjets = document.querySelector(".btn-objets")

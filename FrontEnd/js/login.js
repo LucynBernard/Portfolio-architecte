@@ -30,7 +30,7 @@ async function getSubmit(event) {
         let result = await response.json();
         console.log(result)
 
-        localStorage.setItem("token", result.token)
+        sessionStorage.setItem("token", result.token)
         window.location.href = "index.html"
 
     } catch (error) {
