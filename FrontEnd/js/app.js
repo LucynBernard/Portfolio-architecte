@@ -26,11 +26,14 @@ async function getWorks(filter) {
 getWorks();
 
 function setFigure(data) {
-    const figure = document.createElement("figure")
-    figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
+    const figure1 = document.createElement("figure")
+    figure1.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
     <figcaption>${data.title}</figcaption>`;
 
-    document.querySelector(".gallery").append(figure);
+    const figure2 = figure1.cloneNode(true);
+
+    document.querySelector(".gallery").append(figure1);
+    document.querySelector(".gallery-modal").append(figure2);
 }
 
 async function getCategory() {
@@ -64,7 +67,7 @@ async function getCategory() {
                     buttons[i].classList.remove("active");
                 }
                 btn.classList.add("active")
-    
+
             });
             container.appendChild(btn);
         })
@@ -73,10 +76,10 @@ async function getCategory() {
         // console.log(json);
         // for (let i = 0; i < json.length; i++) {
         //     setFilter(json[i]);
-        } catch (error) {
+    } catch (error) {
         console.error(error.message);
-    } 
     }
+}
 getCategory();
 
 function setFilter(data) { }
@@ -84,16 +87,17 @@ function setFilter(data) { }
 //apparition de la barre noire
 function adminMode() {
     if (sessionStorage.token) {
-        console.log("ok")
         const editBar = document.createElement('div')
-        editBar.className ='edit-bar'
-		editBar.innerHTML = '<p><i class="fa-solid fa-pen-to-square"></i>Mode édition</p>';
+        editBar.className = 'edit-bar'
+        editBar.innerHTML = '<p><i class="fa-solid fa-pen-to-square"></i>Mode édition</p>';
         document.body.prepend(editBar);
 
         const editProject = document.createElement('span');
         editProject.className = 'edit-project';
         editProject.innerHTML = '<a href="#modale" class="js-modal"><i class="fa-solid fa-pen-to-square"></i>modifier</a>';
         document.querySelector("#title-project").appendChild(editProject);
+
+        document.querySelector(".login").textContent = "logout";
     }
 }
 
@@ -101,17 +105,67 @@ adminMode()
 
 //modale 
 
+let modal = null
+const focusableSelector = 'button, a, input, textarea'
+let focusables = []
+
 const openModal = function (e) {
     e.preventDefault();
-    const target = document.querySelector(e.target.getAttribute("href"))
-    target.style.display = null
-    target.removeAttribute("aria-hidden")
-    target.setAttribute("aria-modal", 'true')
+    modal = document.querySelector(e.target.getAttribute("href"))
+    focusables = Array.from(modal.querySelectorAll(focusableSelector))
+    modal.style.display = null
+    modal.removeAttribute("aria-hidden")
+    modal.setAttribute("aria-modal", 'true')
+    modal.addEventListener('click', closeModal)
+    modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
+    modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+}
+
+const closeModal = function (e) {
+    if (modal === null) return
+    e.preventDefault()
+    modal.style.display = "none"
+    modal.setAttribute("aria-hidden", 'true')
+    modal.removeAttribute("aria-modal")
+    modal.removeEventListener('click', closeModal)
+    modal.querySelector('.js-modal-close').removeEventListener('click', closeModal)
+    modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
+    modal = null
+}
+
+const stopPropagation = function (e) {
+    e.stopPropagation()
+}
+
+const focusInModal = function (e) {
+    e.preventDefault()
+    let index = focusables.findIndex(f => f === modal.querySelector(':focus'))
+    if (e.shiftKey === true) {
+        index--
+    } else {
+        index++
+    }
+    if (index >= focusables.length) {
+        index = 0
+    }
+    if (index < 0) {
+        index = focusables.length - 1
+    }
+    focusables[index].focus()
 }
 
 document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener('click', openModal);
-    
+
+})
+
+window.addEventListener('keydown', function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+        closeModal(e)
+    }
+    if (e.key === 'Tab' && modal !== null) {
+        focusInModal(e)
+    }
 })
 
 // const boutonTous = document.querySelector(".btn-all")
