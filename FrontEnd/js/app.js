@@ -30,7 +30,13 @@ function setFigure(data) {
     figure1.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
     <figcaption>${data.title}</figcaption>`;
 
-    const figure2 = figure1.cloneNode(true);
+    const figure2 = document.createElement("figure")
+    figure2.innerHTML = `<div class="img-container">
+    <img src=${data.imageUrl} alt=${data.title}>
+    <i class="fa-solid fa-trash-can ${data.id}"></i>
+    </div>`;
+    
+    //figure1.cloneNode(true);
 
     document.querySelector(".gallery").append(figure1);
     document.querySelector(".gallery-modal").append(figure2);
@@ -47,7 +53,6 @@ async function getCategory() {
         const categories = await response.json();
 
         const container = document.querySelector(".filters");
-
         //Créer le bouton "tous"
         const allBtn = document.createElement("button");
         allBtn.textContent = "Tous";
@@ -167,6 +172,14 @@ window.addEventListener('keydown', function (e) {
         focusInModal(e)
     }
 })
+
+// supprimer les travaux
+
+// const suppApi = "http://localhost:5678/api/works/";
+
+// document.querySelectorAll(".fa-trash-can").forEach((a) => {
+//     a.addEventListener("click", console.log('trash button'))
+// })
 
 // const boutonTous = document.querySelector(".btn-all")
 // const boutonObjets = document.querySelector(".btn-objets")
