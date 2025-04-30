@@ -31,12 +31,25 @@ function setFigure(data) {
     <figcaption>${data.title}</figcaption>`;
 
     const figure2 = document.createElement("figure")
-    figure2.innerHTML = `<div class="img-container">
-    <img src=${data.imageUrl} alt=${data.title}>
-    <i class="fa-solid fa-trash-can ${data.id}"></i>
-    </div>`;
+    figure2.classList.add("img-container")
+    figure2.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>`
     
-    //figure1.cloneNode(true);
+    const trashCan = document.createElement("i")
+    trashCan.classList.add("fa-solid", "fa-trash-can")
+    figure2.appendChild(trashCan)
+
+    trashCan.addEventListener('click', () => {
+        figure2.remove()
+        figure1.remove()
+        const url = `http://localhost:5678/api/works/${data.id}`
+        // fetch(url, {
+        //     headers: {
+        //         Authorization:`Bearer ${sessionStorage.getItem("token")}`
+        //     },
+        //     method: "DELETE"
+        // })
+        // .then(response => console.log(response))
+    })
 
     document.querySelector(".gallery").append(figure1);
     document.querySelector(".gallery-modal").append(figure2);
@@ -92,6 +105,8 @@ function setFilter(data) { }
 //apparition de la barre noire
 function adminMode() {
     if (sessionStorage.token) {
+        document.querySelector(".filters").style.display="none"
+
         const editBar = document.createElement('div')
         editBar.className = 'edit-bar'
         editBar.innerHTML = '<p><i class="fa-solid fa-pen-to-square"></i>Mode édition</p>';
@@ -103,6 +118,10 @@ function adminMode() {
         document.querySelector("#title-project").appendChild(editProject);
 
         document.querySelector(".login").textContent = "logout";
+        document.querySelector(".login").addEventListener('click', () => {
+            sessionStorage.removeItem("token")
+            window.location.href="index.html"
+        })
     }
 }
 
@@ -172,6 +191,32 @@ window.addEventListener('keydown', function (e) {
         focusInModal(e)
     }
 })
+
+// deuxieme modale
+
+const switchModal = function () {
+    document.querySelector('.modal-wrapper').innerHTML = `<div class="modal-close-container">
+				<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
+			</div>
+			<h3 id="titlemodal">Ajout photo</h3>
+			<div class="add-project-form">
+            <form action="#" method="post">
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="title">
+				<label for="category">Catégorie</label>
+				<input type="category" name="category" id="category">
+			</form>
+            </div>
+			<hr />
+			<div class="button-add-container">
+				<button class="btn-valider">Valider</button>
+			</div>`;
+};
+
+const addProject = document.querySelector(".add-project");
+addProject.addEventListener('click', switchModal);
+
+
 
 // supprimer les travaux
 
