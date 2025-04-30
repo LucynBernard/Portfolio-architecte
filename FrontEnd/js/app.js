@@ -33,7 +33,7 @@ function setFigure(data) {
     const figure2 = document.createElement("figure")
     figure2.classList.add("img-container")
     figure2.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>`
-    
+
     const trashCan = document.createElement("i")
     trashCan.classList.add("fa-solid", "fa-trash-can")
     figure2.appendChild(trashCan)
@@ -105,7 +105,7 @@ function setFilter(data) { }
 //apparition de la barre noire
 function adminMode() {
     if (sessionStorage.token) {
-        document.querySelector(".filters").style.display="none"
+        document.querySelector(".filters").style.display = "none"
 
         const editBar = document.createElement('div')
         editBar.className = 'edit-bar'
@@ -120,7 +120,7 @@ function adminMode() {
         document.querySelector(".login").textContent = "logout";
         document.querySelector(".login").addEventListener('click', () => {
             sessionStorage.removeItem("token")
-            window.location.href="index.html"
+            window.location.href = "index.html"
         })
     }
 }
@@ -195,22 +195,23 @@ window.addEventListener('keydown', function (e) {
 // deuxieme modale
 
 const switchModal = function () {
-    document.querySelector('.modal-wrapper').innerHTML = `<div class="modal-close-container">
+    document.querySelector('.modal-wrapper').innerHTML = `<div class="modal-icons">
+    <button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></button>
 				<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
 			</div>
 			<h3 id="titlemodal">Ajout photo</h3>
-			<div class="add-project-form">
+			<div class="form add-project-form">
             <form action="#" method="post">
 				<label for="title">Titre</label>
 				<input type="text" name="title" id="title">
 				<label for="category">Catégorie</label>
 				<input type="category" name="category" id="category">
 			</form>
+            <hr />
+            <div class="btn-valider-container">
+            <button class="btn-valider">Valider</button>
             </div>
-			<hr />
-			<div class="button-add-container">
-				<button class="btn-valider">Valider</button>
-			</div>`;
+            </div>`;
 };
 
 const addProject = document.querySelector(".add-project");

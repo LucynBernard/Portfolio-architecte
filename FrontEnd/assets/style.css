@@ -298,39 +298,39 @@ li:hover {
 
 }
 
-#contact {
+.form {
 	width: 50%;
 	margin: auto;
 }
 
-#contact>* {
+.form>* {
 	text-align: center;
 
 }
 
-#contact h2 {
+.form h2 {
 	margin-bottom: 20px;
 }
 
-#contact form {
+.form form {
 	text-align: left;
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+.form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#contact label {
+.form label {
 	margin: 2em 0 1em 0;
 }
 
-#contact textarea {
+.form textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -344,49 +344,6 @@ input[type="submit"] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
-}
-
-/*page de login*/
-
-#login {
-	width: 50%;
-	margin: auto;
-}
-
-#login>* {
-	text-align: center;
-
-}
-
-#login h2 {
-	margin-bottom: 20px;
-}
-
-#login form {
-	text-align: left;
-	margin-top: 30px;
-	display: flex;
-	flex-direction: column;
-}
-
-#login input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-#login label {
-	margin: 2em 0 1em 0;
-}
-
-#login textarea {
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-#login a {
-	color: #3D3D3D;
 }
 
 /*fenêtre d'erreur*/
@@ -463,8 +420,7 @@ hr {
 	justify-content: center;
 }
 
-.add-project,
-.btn-valider {
+.add-project {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -474,14 +430,16 @@ hr {
 	border-radius: 60px;
 	padding: 10px 20px;
 	cursor: pointer;
+	border: none;
 }
 
-.modal-close-container {
+.modal-icons {
 	display: flex;
-	justify-content: end;
+	justify-content: space-between;
 }
 
-.js-modal-close {
+.js-modal-close,
+.js-modal-back {
 	background-color: white;
 	border: none;
 	font-weight: bold;
@@ -504,9 +462,23 @@ hr {
 	border-radius: 5px;
 }
 
-.modal-wrapper form {
-	text-align: left;
-	margin-top: 30px;
+.add-project-form {
+	width: 100%;
+}
+.btn-valider-container {
 	display: flex;
-	flex-direction: column;
+	justify-content: center;
+}
+
+.btn-valider {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color:#A7A7A7;
+	margin: 2em auto;
+	width: 237px;
+	border-radius: 60px;
+	padding: 10px 20px;
+	cursor: pointer;
+	border: none;
 }
