@@ -194,28 +194,34 @@ window.addEventListener('keydown', function (e) {
 
 // deuxieme modale
 
-const switchModal = function () {
-    document.querySelector('.modal-wrapper').innerHTML = `<div class="modal-icons">
-    <button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></button>
-				<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
-			</div>
-			<h3 id="titlemodal">Ajout photo</h3>
-			<div class="form add-project-form">
-            <form action="#" method="post">
-				<label for="title">Titre</label>
-				<input type="text" name="title" id="title">
-				<label for="category">Catégorie</label>
-				<input type="category" name="category" id="category">
-			</form>
-            <hr />
-            <div class="btn-valider-container">
-            <button class="btn-valider">Valider</button>
-            </div>
-            </div>`;
-};
+document.querySelector('.add-modale')
 
-const addProject = document.querySelector(".add-project");
-addProject.addEventListener('click', switchModal);
+// const switchModal = function () {
+//     document.querySelector('.modal-wrapper').innerHTML = `<div class="modal-icons">
+//     <button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></button>
+// 				<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
+// 			</div>
+// 			<h3 id="titlemodal">Ajout photo</h3>
+// 			<div class="form add-project-form">
+//             <form action="#" method="post">
+// 				<label for="title">Titre</label>
+// 				<input type="text" name="title" id="title">
+// 				<label for="category">Catégorie</label>
+// 				<input type="category" name="category" id="category">
+// 			</form>
+//             <hr />
+//             <div class="btn-valider-container">
+//             <button class="btn-valider">Valider</button>
+//             </div>
+//             </div>
+//             `;
+    // modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
+    // modal.querySelector('.js-modal-back').addEventListener('click', openModal)
+
+// };
+
+// const addProject = document.querySelector(".add-project");
+// addProject.addEventListener('click', switchModal);
 
 
 
