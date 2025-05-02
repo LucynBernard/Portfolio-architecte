@@ -393,7 +393,7 @@ footer nav ul {
 	max-height: calc(100vh - 20px);
 	width: 600px;
 	height: 400px;
-	padding: 20px 80px 80px 80px;
+	padding: 20px 80px 20px 80px;
 	border-radius: 20px;
 }
 
@@ -431,6 +431,11 @@ hr {
 	padding: 10px 20px;
 	cursor: pointer;
 	border: none;
+}
+
+.modal-close-container {
+	display: flex;
+	justify-content: end;
 }
 
 .modal-icons {

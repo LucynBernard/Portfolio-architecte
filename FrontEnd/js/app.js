@@ -141,7 +141,7 @@ const openModal = function (e) {
     modal.removeAttribute("aria-hidden")
     modal.setAttribute("aria-modal", 'true')
     modal.addEventListener('click', closeModal)
-    modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
+    modal.querySelectorAll('.js-modal-close').forEach((e) => e.addEventListener('click', closeModal));
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
 }
 
@@ -194,34 +194,28 @@ window.addEventListener('keydown', function (e) {
 
 // deuxieme modale
 
-document.querySelector('.add-modale')
+const addProjectBtn = document.querySelector(".add-project")
+addProjectBtn.addEventListener('click', changeModal)
 
-// const switchModal = function () {
-//     document.querySelector('.modal-wrapper').innerHTML = `<div class="modal-icons">
-//     <button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></button>
-// 				<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
-// 			</div>
-// 			<h3 id="titlemodal">Ajout photo</h3>
-// 			<div class="form add-project-form">
-//             <form action="#" method="post">
-// 				<label for="title">Titre</label>
-// 				<input type="text" name="title" id="title">
-// 				<label for="category">Catégorie</label>
-// 				<input type="category" name="category" id="category">
-// 			</form>
-//             <hr />
-//             <div class="btn-valider-container">
-//             <button class="btn-valider">Valider</button>
-//             </div>
-//             </div>
-//             `;
-    // modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
-    // modal.querySelector('.js-modal-back').addEventListener('click', openModal)
+const backBtn = document.querySelector('.js-modal-back')
+backBtn.addEventListener("click", changeModal)
 
-// };
+function changeModal() {
+    const galleryModale = document.querySelector(".gallery-modale");
+    const addModale = document.querySelector(".add-modale");
 
-// const addProject = document.querySelector(".add-project");
-// addProject.addEventListener('click', switchModal);
+    if (
+        galleryModale.style.display === "block" ||
+        galleryModale.style.display === ""
+    ) {
+        galleryModale.style.display = "none";
+        addModale.style.display = "block";
+    } else {
+        galleryModale.style.display = "block";
+        addModale.style.display = "none";
+
+    }
+}
 
 
 
