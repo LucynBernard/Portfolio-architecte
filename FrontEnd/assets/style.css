@@ -462,7 +462,7 @@ hr {
 	top: 10px;
 	color: white;
 	font-size: 17px;
-	background:	black;
+	background: black;
 	padding: 4px;
 	border-radius: 5px;
 }
@@ -470,6 +470,7 @@ hr {
 .add-project-form {
 	width: 100%;
 }
+
 .btn-valider-container {
 	display: flex;
 	justify-content: center;
@@ -479,11 +480,48 @@ hr {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color:#A7A7A7;
+	background-color: #A7A7A7;
 	margin: 2em auto;
 	width: 237px;
 	border-radius: 60px;
 	padding: 10px 20px;
 	cursor: pointer;
 	border: none;
+}
+
+.ajout-photo {
+	background-color: #E8F1F6;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 3px;
+	height: 169px;
+	justify-content: center;
+	padding: 20px 0 20px 0;
+}
+
+#uploadInput {
+	box-shadow: none;
+	opacity: 0;
+}
+
+.upload-pic {
+	font-family: 'Work Sans';
+	font-size: 20px;
+	color: #306685;
+	background-color: #CBD6DC;
+	width: 237px;
+	border-radius: 60px;
+	border: none;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.upload-pic p {
+	z-index: 0;
+}
+
+.fa-image {
+	font-size: 80px;
+	color: #B9C5CC;
 }

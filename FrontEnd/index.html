@@ -31,7 +31,7 @@
 					<button class="add-project">Ajouter une photo</button>
 				</div>
 			</div>
-			
+
 			<div class="add-modale" style="display: none;">
 				<div class="modal-icons">
 					<button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></button>
@@ -40,6 +40,14 @@
 				<h3 id="titlemodal">Ajout photo</h3>
 				<div class="form add-project-form">
 					<form action="#" method="post">
+						<div class="ajout-photo">
+							<i class="fa-regular fa-image"></i>
+							<button class="upload-pic">
+								<input id="uploadInput" type="file">
+								<p>+ Ajouter photo</p>
+							</button>
+							<p>jpg, png : 4mo max</p>
+						</div>
 						<label for="title">Titre</label>
 						<input type="text" name="title" id="title">
 						<label for="category">Catégorie</label>

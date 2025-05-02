@@ -217,6 +217,10 @@ function changeModal() {
     }
 }
 
+// ajouter photo input
+
+// document.querySelector("#uploadInput").style.display = "none";
+
 
 
 // supprimer les travaux
