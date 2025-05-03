@@ -41,17 +41,23 @@
 				<div class="form add-project-form">
 					<form action="#" method="post">
 						<div class="ajout-photo">
-							<i class="fa-regular fa-image"></i>
-							<button class="upload-pic">
-								<input id="uploadInput" type="file">
-								<p>+ Ajouter photo</p>
+							<div id="photo-container"></div>
+							<i class="fa-regular fa-image after-pic"></i>
+							<button class="upload-pic-btn after-pic">
+								<input type="file" id="file" name="file" accept="image/png, image/jpeg" />
+								<p class="after-pic">+ Ajouter photo</p>
 							</button>
 							<p>jpg, png : 4mo max</p>
 						</div>
 						<label for="title">Titre</label>
 						<input type="text" name="title" id="title">
-						<label for="category">Catégorie</label>
-						<input type="category" name="category" id="category">
+						<label for="category">Catégorie :</label>
+						<select name="category" id="category">
+							<option value=""></option>
+							<option value="objets">Objet</option>
+							<option value="appartements">Appartements</option>
+							<option value="hotels">Hotels et restaurants</option>
+						</select>
 					</form>
 					<hr />
 					<div class="btn-valider-container">

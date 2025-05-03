@@ -326,6 +326,14 @@ li:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+.form select {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	background-color: white;
+}
+
 .form label {
 	margin: 2em 0 1em 0;
 }
@@ -498,14 +506,16 @@ hr {
 	height: 169px;
 	justify-content: center;
 	padding: 20px 0 20px 0;
+	position: relative;
+	overflow: hidden;
 }
 
-#uploadInput {
+#file {
 	box-shadow: none;
 	opacity: 0;
 }
 
-.upload-pic {
+.upload-pic-btn {
 	font-family: 'Work Sans';
 	font-size: 20px;
 	color: #306685;
@@ -524,4 +534,11 @@ hr {
 .fa-image {
 	font-size: 80px;
 	color: #B9C5CC;
+}
+
+#photo-container img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	display: block;
 }

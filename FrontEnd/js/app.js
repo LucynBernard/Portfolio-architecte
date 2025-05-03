@@ -219,6 +219,23 @@ function changeModal() {
 
 // ajouter photo input
 
+document.getElementById("file").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = "uploaded Photo";
+            document.getElementById("photo-container").appendChild(img);
+            document.querySelectorAll("#after-pic").forEach(e => e.style.display = "none");
+        };
+        reader.readAsDataURL(file);
+    } else {
+        alert("Veuillez sélectionner une image au format JPG ou PNG.");
+    }
+});
+
 // document.querySelector("#uploadInput").style.display = "none";
 
 
