@@ -219,8 +219,11 @@ function changeModal() {
 
 // ajouter photo input
 
+// document.querySelector("#file").style.display = "none";
+
 document.getElementById("file").addEventListener("change", function (event) {
     const file = event.target.files[0];
+    console.log(file);
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -228,42 +231,73 @@ document.getElementById("file").addEventListener("change", function (event) {
             img.src = e.target.result;
             img.alt = "uploaded Photo";
             document.getElementById("photo-container").appendChild(img);
-            document.querySelectorAll("#after-pic").forEach(e => e.style.display = "none");
         };
         reader.readAsDataURL(file);
+        document.querySelectorAll("#after-pic").
+            forEach(e => e.style.display = "none");
     } else {
         alert("Veuillez sélectionner une image au format JPG ou PNG.");
     }
 });
 
-// document.querySelector("#uploadInput").style.display = "none";
+// gérer nouveau projet 
+
+const titleInput = document.getElementById('title');
+// let titleValue = "";
+
+let selectedValue = "1";
+
+document.getElementById("category").addEventListener("change", function () {
+    selectedValue = this.value;
+});
+
+titleInput.addEventListener("input", function () {
+    titleValue = titleInput.value;
+    console.log('Titre actuel :', titleValue);
+})
+
+document
+    .getElementById('pic-form')
+    .addEventListener('submit', getSubmit);
+
+async function getSubmit(event) {
+    event.preventDefault();
+
+    const hasImage = document.querySelector("#photo-container img");
+    const titleValue = titleInput.value.trim();
+
+    const image = document.querySelector("#photo-container");
+
+    if (hasImage && titleValue) {
+        console.log("hasImage and titleValue is true");
+    } else {
+        console.log("hasImage and titleValue is false");
+    }
+
+    const formData = new FormData();
+    formData.append('image', hasImage);
+    formData.append('title', titleValue);
+    formData.append('category', selectedValue);
+
+    const token = sessionStorage.token;
 
 
+    let response = await fetch('http://localhost:5678/api/works', {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify(formData),
+    });
 
-// supprimer les travaux
-
-// const suppApi = "http://localhost:5678/api/works/";
-
-// document.querySelectorAll(".fa-trash-can").forEach((a) => {
-//     a.addEventListener("click", console.log('trash button'))
-// })
-
-// const boutonTous = document.querySelector(".btn-all")
-// const boutonObjets = document.querySelector(".btn-objets")
-// const boutonApp = document.querySelector(".btn-app")
-// const boutonHotels = document.querySelector(".btn-hotels")
-
-// boutonObjets.addEventListener("click", () => {
-//     getWorks(1)
-// })
-
-// boutonTous.addEventListener("click", () => {
-//     getWorks()
-
-// })
-// boutonApp.addEventListener("click", () => {
-//     getWorks(2)
-// })
-// boutonHotels.addEventListener("click", () => {
-//     getWorks(3)
-// })
+    if (response.status != 200) {
+        const errorMess = document.createElement("div");
+        errorMess.className = "error-message";
+        errorMess.innerHTML = "Il y a eu une erreur";
+        document.querySelector("form").prepend(errorMess)
+    } else {
+        let result = await response.json();
+        console.log(result)
+    }
+}
