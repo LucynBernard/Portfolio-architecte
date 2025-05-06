@@ -42,13 +42,13 @@ function setFigure(data) {
         figure2.remove()
         figure1.remove()
         const url = `http://localhost:5678/api/works/${data.id}`
-        // fetch(url, {
-        //     headers: {
-        //         Authorization:`Bearer ${sessionStorage.getItem("token")}`
-        //     },
-        //     method: "DELETE"
-        // })
-        // .then(response => console.log(response))
+        fetch(url, {
+            headers: {
+                Authorization:`Bearer ${sessionStorage.getItem("token")}`
+            },
+            method: "DELETE"
+        })
+        .then(response => console.log(response))
     })
 
     document.querySelector(".gallery").append(figure1);
@@ -219,22 +219,28 @@ function changeModal() {
 
 // ajouter photo input
 
+let uploadedFile = null;
+let selectedValue = "1";
+
+let img = document.createElement('img');
+
 // document.querySelector("#file").style.display = "none";
 
 document.getElementById("file").addEventListener("change", function (event) {
     const file = event.target.files[0];
-    console.log(file);
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+        uploadedFile = file;
         const reader = new FileReader();
         reader.onload = function (e) {
-            const img = document.createElement('img');
             img.src = e.target.result;
             img.alt = "uploaded Photo";
+            document.getElementById("photo-container").innerHTML = '';
             document.getElementById("photo-container").appendChild(img);
         };
         reader.readAsDataURL(file);
-        document.querySelectorAll("#after-pic").
-            forEach(e => e.style.display = "none");
+        document
+            .querySelectorAll("#after-pic")
+            .forEach(e => e.style.display = "none");
     } else {
         alert("Veuillez sélectionner une image au format JPG ou PNG.");
     }
@@ -242,62 +248,55 @@ document.getElementById("file").addEventListener("change", function (event) {
 
 // gérer nouveau projet 
 
-const titleInput = document.getElementById('title');
-// let titleValue = "";
-
-let selectedValue = "1";
-
 document.getElementById("category").addEventListener("change", function () {
     selectedValue = this.value;
 });
 
-titleInput.addEventListener("input", function () {
-    titleValue = titleInput.value;
-    console.log('Titre actuel :', titleValue);
-})
+const addProjectForm = document.getElementById('pic-form');
+const titleInput = document.getElementById('title');
 
-document
-    .getElementById('pic-form')
-    .addEventListener('submit', getSubmit);
-
-async function getSubmit(event) {
+addProjectForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const hasImage = document.querySelector("#photo-container img");
     const titleValue = titleInput.value.trim();
 
-    const image = document.querySelector("#photo-container");
+    if (uploadedFile && titleValue) {
+        const formData = new FormData();
+        formData.append('image', uploadedFile);
+        formData.append('title', titleValue);
+        formData.append('category', selectedValue);
 
-    if (hasImage && titleValue) {
-        console.log("hasImage and titleValue is true");
+        const token = sessionStorage.token;
+
+        try {
+            const response = await fetch('http://localhost:5678/api/works', {
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error("Erreur lors de l'envoi.")
+            }
+
+            const result = await response.json();
+            console.log("Projet ajouté :", result);
+        } catch (error) {
+            const errorMess = document.createElement("div");
+            errorMess.className = "error-message";
+            errorMess.innerHTML = "Il y a eu une erreur :" + error.message;
+            document.querySelector("form").prepend(errorMess)
+        }
     } else {
-        console.log("hasImage and titleValue is false");
+        alert("Veuillez ajouter une image et un titre.");
     }
 
-    const formData = new FormData();
-    formData.append('image', hasImage);
-    formData.append('title', titleValue);
-    formData.append('category', selectedValue);
-
-    const token = sessionStorage.token;
-
-
-    let response = await fetch('http://localhost:5678/api/works', {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(formData),
-    });
-
-    if (response.status != 200) {
-        const errorMess = document.createElement("div");
-        errorMess.className = "error-message";
-        errorMess.innerHTML = "Il y a eu une erreur";
-        document.querySelector("form").prepend(errorMess)
-    } else {
-        let result = await response.json();
-        console.log(result)
+    if (!token) {
+        console.error("Token d'authentification manquant.");
+        return
     }
-}
+});
+
+
