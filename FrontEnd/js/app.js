@@ -1,6 +1,7 @@
 async function getWorks(filter) {
     document.querySelector(".gallery").innerHTML = "";
     const url = "http://localhost:5678/api/works";
+    document.querySelector(".gallery-modal").innerHTML = "";
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -224,8 +225,6 @@ let selectedValue = "1";
 
 let img = document.createElement('img');
 
-// document.querySelector("#file").style.display = "none";
-
 document.getElementById("file").addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
@@ -239,7 +238,7 @@ document.getElementById("file").addEventListener("change", function (event) {
         };
         reader.readAsDataURL(file);
         document
-            .querySelectorAll("#after-pic")
+            .querySelectorAll(".after-pic")
             .forEach(e => e.style.display = "none");
     } else {
         alert("Veuillez sélectionner une image au format JPG ou PNG.");
@@ -266,8 +265,11 @@ addProjectForm.addEventListener('submit', async (event) => {
         formData.append('title', titleValue);
         formData.append('category', selectedValue);
 
-        const token = sessionStorage.token;
-
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            console.error("Token d'authentification manquant.");
+            return
+        }
         try {
             const response = await fetch('http://localhost:5678/api/works', {
                 method: "POST",
@@ -280,7 +282,8 @@ addProjectForm.addEventListener('submit', async (event) => {
             if (!response.ok) {
                 throw new Error("Erreur lors de l'envoi.")
             }
-
+            addProjectForm.reset();
+            getWorks();
             const result = await response.json();
             console.log("Projet ajouté :", result);
         } catch (error) {
@@ -291,11 +294,6 @@ addProjectForm.addEventListener('submit', async (event) => {
         }
     } else {
         alert("Veuillez ajouter une image et un titre.");
-    }
-
-    if (!token) {
-        console.error("Token d'authentification manquant.");
-        return
     }
 });
 

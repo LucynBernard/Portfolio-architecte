@@ -511,20 +511,24 @@ hr {
 }
 
 #file {
-	box-shadow: none;
-	opacity: 0;
+	display: none;
 }
 
 .upload-pic-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	font-family: 'Work Sans';
 	font-size: 20px;
 	color: #306685;
 	background-color: #CBD6DC;
 	width: 237px;
+	height: 36px;
 	border-radius: 60px;
 	border: none;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+	flex-shrink: 0;
 }
 
 .upload-pic p {
@@ -536,9 +540,13 @@ hr {
 	color: #B9C5CC;
 }
 
+#photo-container {
+	height: 100%;
+}
+
 #photo-container img {
 	max-width: 100%;
-	max-height: 100%;
+	height: 100%;
 	object-fit: contain;
 	display: block;
 }
