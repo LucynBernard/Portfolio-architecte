@@ -45,11 +45,11 @@ function setFigure(data) {
         const url = `http://localhost:5678/api/works/${data.id}`
         fetch(url, {
             headers: {
-                Authorization:`Bearer ${sessionStorage.getItem("token")}`
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`
             },
             method: "DELETE"
         })
-        .then(response => console.log(response))
+            .then(response => console.log(response))
     })
 
     document.querySelector(".gallery").append(figure1);
@@ -202,17 +202,17 @@ const backBtn = document.querySelector('.js-modal-back')
 backBtn.addEventListener("click", changeModal)
 
 function changeModal() {
-    const galleryModale = document.querySelector(".gallery-modale");
+    const mainModale = document.querySelector(".main-modale");
     const addModale = document.querySelector(".add-modale");
 
     if (
-        galleryModale.style.display === "block" ||
-        galleryModale.style.display === ""
+        mainModale.style.display === "block" ||
+        mainModale.style.display === ""
     ) {
-        galleryModale.style.display = "none";
+        mainModale.style.display = "none";
         addModale.style.display = "block";
     } else {
-        galleryModale.style.display = "block";
+        mainModale.style.display = "block";
         addModale.style.display = "none";
 
     }
@@ -220,12 +220,17 @@ function changeModal() {
 
 // ajouter photo input
 
+const fileInput = document.getElementById("file");
+const categorySelect = document.getElementById("category");
+const submitButton = document.querySelector(".btn-valider");
+const addProjectForm = document.getElementById('pic-form');
+const titleInput = document.getElementById('title');
+
 let uploadedFile = null;
 let selectedValue = "1";
-
 let img = document.createElement('img');
 
-document.getElementById("file").addEventListener("change", function (event) {
+fileInput.addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
         uploadedFile = file;
@@ -243,23 +248,40 @@ document.getElementById("file").addEventListener("change", function (event) {
     } else {
         alert("Veuillez sélectionner une image au format JPG ou PNG.");
     }
+    validateForm();
 });
 
 // gérer nouveau projet 
 
-document.getElementById("category").addEventListener("change", function () {
+categorySelect.addEventListener("change", function () {
     selectedValue = this.value;
+    validateForm();
 });
 
-const addProjectForm = document.getElementById('pic-form');
-const titleInput = document.getElementById('title');
+function validateForm() {
+    const fileSelected = fileInput.files.length > 0;
+    const titleFilled = titleInput.value.trim() !== "";
+    const categorySelected = categorySelect.value !== "";
+
+    const formIsValid = fileSelected && titleFilled && categorySelected;
+    submitButton.disabled = !formIsValid;
+
+    if (formIsValid) {
+        submitButton.classList.add("active");
+    } else {
+        submitButton.classList.remove("active");
+    }
+}
+
+titleInput.addEventListener("input", validateForm);
+validateForm();
 
 addProjectForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const titleValue = titleInput.value.trim();
 
-    if (uploadedFile && titleValue) {
+    if (uploadedFile && titleValue && selectedValue) {
         const formData = new FormData();
         formData.append('image', uploadedFile);
         formData.append('title', titleValue);
@@ -283,9 +305,19 @@ addProjectForm.addEventListener('submit', async (event) => {
                 throw new Error("Erreur lors de l'envoi.")
             }
             addProjectForm.reset();
-            getWorks();
+            uploadedFile = null;
+            selectedValue = "";
+            img.src = "";
+            document.getElementById("photo-container").innerHTML = "";
+            document.querySelectorAll(".after-pic").forEach(e => e.style.display = "block");
+            validateForm();
+
             const result = await response.json();
             console.log("Projet ajouté :", result);
+            getWorks();
+
+            document.getElementById("modale").style.display = "none";
+
         } catch (error) {
             const errorMess = document.createElement("div");
             errorMess.className = "error-message";

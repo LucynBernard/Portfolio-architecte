@@ -493,8 +493,14 @@ hr {
 	width: 237px;
 	border-radius: 60px;
 	padding: 10px 20px;
-	cursor: pointer;
 	border: none;
+	cursor: not-allowed;
+}
+
+.btn-valider.active {
+	background-color: #1D6154;
+	cursor: pointer;
+
 }
 
 .ajout-photo {
